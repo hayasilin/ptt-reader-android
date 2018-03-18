@@ -28,4 +28,10 @@ public class WebViewActivity extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClient());
         webview.loadUrl(hotArticle.url);
     }
+
+    @Override
+    public void onBackPressed() {
+        Log.w("goback", "go back button pressed");
+        finish();
+    }
 }
