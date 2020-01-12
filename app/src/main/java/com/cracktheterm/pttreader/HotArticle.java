@@ -1,8 +1,5 @@
 package com.cracktheterm.pttreader;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**
@@ -12,9 +9,6 @@ import java.io.Serializable;
 public class HotArticle implements Serializable {
 
     String hot_num = "";
-    String bi = "";
-    String ti = "";
-    String ai = "";
     String author = "";
     String title = "";
     String board_name = "";

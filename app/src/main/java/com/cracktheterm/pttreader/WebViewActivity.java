@@ -1,6 +1,5 @@
 package com.cracktheterm.pttreader;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,7 @@ public class WebViewActivity extends AppCompatActivity {
             hotArticle = (HotArticle) extras.getSerializable("hotArticle");
         }
 
-        WebView webview = (WebView) findViewById(R.id.webView);
+        WebView webview = findViewById(R.id.webView);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient());
