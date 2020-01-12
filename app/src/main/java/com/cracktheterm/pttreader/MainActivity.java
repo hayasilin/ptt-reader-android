@@ -110,20 +110,14 @@ public class MainActivity extends AppCompatActivity {
 
                 for (int i = 0; i < lists.length(); i++) {
                     JSONObject data = lists.getJSONObject(i);
-                    String hotNumString = data.getString("hot_num");
-                    String authorString = data.getString("author");
-                    String titleString = data.getString("title");
-                    String boardNameString = data.getString("board_name");
-                    String descString = data.getString("desc");
-                    String urlString = data.getString("url");
 
                     HotArticle article = new HotArticle();
-                    article.hot_num = hotNumString;
-                    article.author = authorString;
-                    article.title = titleString;
-                    article.board_name = boardNameString;
-                    article.desc = descString;
-                    article.url = urlString;
+                    article.hot_num = data.getString("hot_num");;
+                    article.author = data.getString("author");;
+                    article.title = data.getString("title");;
+                    article.board_name = data.getString("board_name");;
+                    article.desc = data.getString("desc");;
+                    article.url = data.getString("url");;
 
                     hotArticles.add(article);
                 }
@@ -138,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String  result2){
-
+            // After works
         }
     }
 
