@@ -15,3 +15,5 @@ Make code coverage up to **96%**
 ```
 ./gradlew clean createDebugCoverageReport
 ```
+
+<img src="https://github.com/hayasilin/ptt-reader-android/blob/master/resource/code_coverage_report.png">
