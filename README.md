@@ -1,1 +1,1 @@
-# PTTReader_Android
+# PTT Reader Android
