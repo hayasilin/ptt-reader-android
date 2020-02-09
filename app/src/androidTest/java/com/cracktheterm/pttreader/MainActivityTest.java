@@ -7,16 +7,8 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,12 +18,12 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.anything;
 
 /**
@@ -40,6 +32,8 @@ import static org.hamcrest.Matchers.anything;
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class MainActivityTest {
+
+    MainPage mainPage;
 
     private IdlingResource mIdlingResource;
 
@@ -53,55 +47,41 @@ public class MainActivityTest {
 
         mIdlingResource = mActivityRule.getActivity().getIdlingResource();
         IdlingRegistry.getInstance().register(mIdlingResource);
+
+        mainPage = new MainPage();
     }
 
     @Test
     public void testHowArticleWebViewExists() {
         // Given
-        onView(withId(R.id.listView)).check(matches(isDisplayed()));
-        ViewInteraction webView = onView(withId(R.id.webView));
+        mainPage.listLive.check(matches(isDisplayed()));
 
         // When
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).perform(click());
         // Then
-        checkWebViewIsDisplayed(webView);
+        checkWebViewIsDisplayed(mainPage.webView);
 
         // When
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(1).perform(click());
         // Then
-        checkWebViewIsDisplayed(webView);
-
-        // When
-        onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(2).perform(click());
-        // Then
-        checkWebViewIsDisplayed(webView);
+        checkWebViewIsDisplayed(mainPage.webView);
     }
 
     @Test
     public void testHotArticleListHasData() {
         // Given
-        onView(withId(R.id.listView)).check(matches(isDisplayed()));
+        mainPage.listLive.check(matches(isDisplayed()));
 
-        // When
-        try {
-            onView(withId(R.id.listView)).check(matches(Matchers.withListSize(30)));
-            Log.w("pass","list has correct number");
-        }catch (AssertionFailedError e){
-            Log.e("error", "AssertionFailedError", e);
-        }
+        int count =  mActivityRule.getActivity().hotArticles.size();
+        ListView listView = mActivityRule.getActivity().findViewById(R.id.listView);
 
         // Then
-        Integer count =  mActivityRule.getActivity().hotArticles.size();
-        Assert.assertTrue(count > 0);
+        assertEquals(count, listView.getAdapter().getCount());
     }
 
     public void checkWebViewIsDisplayed(ViewInteraction webView) {
-        try {
-            webView.check(matches(isDisplayed()));
-            pressBack();
-        }catch (AssertionFailedError e) {
-            Log.e("error", "AssertionFailedError" ,e);
-        }
+        webView.check(matches(isDisplayed()));
+        pressBack();
     }
 
     @After
@@ -109,18 +89,3 @@ public class MainActivityTest {
         IdlingRegistry.getInstance().unregister(mIdlingResource); // Clean up
     }
 }
-
-class Matchers {
-    public static Matcher<View> withListSize (final int size) {
-        return new TypeSafeMatcher<View>() {
-            @Override public boolean matchesSafely (final View view) {
-                return ((ListView) view).getCount () == size;
-            }
-
-            @Override public void describeTo (final Description description) {
-                description.appendText ("ListView should have " + size + " items");
-            }
-        };
-    }
-}
-
