@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter adapter;
 
     // The Idling Resource which will be null in production.
-    @Nullable private SimpleIdlingResource mIdlingResource;
+    @Nullable private SimpleIdlingResource idlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
     @VisibleForTesting
     @NonNull
     public IdlingResource getIdlingResource() {
-        if (mIdlingResource == null) {
-            mIdlingResource = new SimpleIdlingResource();
+        if (idlingResource == null) {
+            idlingResource = new SimpleIdlingResource();
         }
-        return mIdlingResource;
+        return idlingResource;
     }
 
     // get ptt hot article from server
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter.notifyDataSetChanged();
 
-                mIdlingResource.setIdleState(true);
+                idlingResource.setIdleState(true);
 
             } catch (Exception ex) {
                 Log.e("error", "exception", ex);

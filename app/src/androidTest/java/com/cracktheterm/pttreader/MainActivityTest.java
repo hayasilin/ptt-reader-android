@@ -35,18 +35,18 @@ public class MainActivityTest {
 
     MainPage mainPage;
 
-    private IdlingResource mIdlingResource;
+    private IdlingResource idlingResource;
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule(MainActivity.class);
 
     @Before
     public void setup() {
         IdlingPolicies.setMasterPolicyTimeout(30, TimeUnit.SECONDS);
         IdlingPolicies.setIdlingResourceTimeout(30, TimeUnit.SECONDS);
 
-        mIdlingResource = mActivityRule.getActivity().getIdlingResource();
-        IdlingRegistry.getInstance().register(mIdlingResource);
+        idlingResource = activityRule.getActivity().getIdlingResource();
+        IdlingRegistry.getInstance().register(idlingResource);
 
         mainPage = new MainPage();
     }
@@ -72,8 +72,8 @@ public class MainActivityTest {
         // Given
         mainPage.listLive.check(matches(isDisplayed()));
 
-        int count =  mActivityRule.getActivity().hotArticles.size();
-        ListView listView = mActivityRule.getActivity().findViewById(R.id.listView);
+        int count = activityRule.getActivity().hotArticles.size();
+        ListView listView = activityRule.getActivity().findViewById(R.id.listView);
 
         // Then
         assertEquals(count, listView.getAdapter().getCount());
@@ -86,6 +86,6 @@ public class MainActivityTest {
 
     @After
     public void teardown() {
-        IdlingRegistry.getInstance().unregister(mIdlingResource); // Clean up
+        IdlingRegistry.getInstance().unregister(idlingResource); // Clean up
     }
 }
